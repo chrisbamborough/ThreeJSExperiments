@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Making a Three.js scene</title>
+    <script type="text/javascript" src="libs/three.js"</script>
+    <script type="text/javascript" src="libs/jquery-1.11.1.min.js"</script>
+    <script type="text/javascript" src="libs/stats.min.js"</script>
+    <script type="text/javascript" src="libs/dat.gui.js"</script>
+    
+        <style>
+        body{
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    
+    </head>
+<body>
+    
+    <div id="Stats-output">
+</div>
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+    
+<!-- Javascript code that runs our Three.js examples -->
+<script type="text/javascript">
+        // once everything is loaded, we run our Three.js stuff.
+    $(function () {
+        
+        // create a scene
+        var scene = new THREE.Scene();
+        // create a camera
+        var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight,0.1,1000);
+        
+        
+        // create ground mesh
+        var planeGeometry = new THREE.PlaneGeometry(60,40,1,1);
+        var planeMaterial = new THREE.MeshLambertMaterial({color:0xffffff});
+        var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+        
+        // add ambient light
+        var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+        // add spotlight
+        var spotLight = new THREE.SpotLight(0xffffff);
+        
+        // add the plane and light to the scene
+        scene.add(plane);
+        scene.add(ambientLight);
+        scene.add(spotLight);
+        
+        
+        
+        
+        
+        // function to add a cube
+        this.addCube = function(){
+            var cubeSize = Math.cell((Math.random()*3));
+            var cubeGeometry = new THREE.CubeGeometry(cubeSize, cubeSize, cubeSize);
+            var cubeMaterial = new THREE.MeshLambertMaterial({color: Math.rndom() * 0xffffff});
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            
+            // tell the cube to cast shadows
+            cube.castShadow = true;
+            cube.name = "cube-" + scene.children.length;
+            cube.position.x = -30 + Math.round((Math.random()*planeGeometry.width));
+            cube.position.y = Math.round((Math.random() * 5));
+            cube.position.z = -20 + Math.round((Math.random() * planeGeometry.height));
+            
+            scene.add(cube);
+            this.numberOfObjects = scene.children.length;
+            };
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    }
+    
+    
+    
+    </script>
+    
+    </body>
+</html>
