@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+
+<html>
+    
+<head>
+    <title>Three.js template</title>
+    <script type="text/javascript" src="libs/three.js"></script>
+    <script type="text/javascript" src="libs/stats.min.js"></script>
+    <script type="text/javascript" src="libs/dat.gui.js"></script>
+    <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
+        <style>
+        body{
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+    
+<body>
+    
+<!----------- DIVS for Output -------->
+<div id="Stats-output"></div>
+<div id="WebGL-output"></div>
+
+    
+<script type="text/javascript">
+    
+    $(function () {
+    
+        //////////////////////
+        // VARS
+        //////////////////////
+        var stats, renderer, scene, camera, spotlight;
+
+        //////////////////////
+        // SETUP STATS
+        //////////////////////
+        stats = new Stats();
+
+        stats.setMode(0); // 0: fps, 1: ms
+
+        // Align top-left
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+
+        $("#Stats-output").append( stats.domElement );
+
+        //////////////////////
+        // SETUP GUI
+        //////////////////////
+        gui = new dat.GUI();
+
+        //////////////////////
+        // CALL FUNCTIONS 
+        //////////////////////
+        setup3D()
+        setupCamera()
+        setupRenderer()        
+        //addGeometry()
+        //addLights()
+        //render()    
+
+        //////////////////////
+        // SETUP 3D SCENE
+        //////////////////////
+        function setup3D(){
+            scene = new THREE.Scene();
+        }
+        
+        //////////////////////
+        // SETUP CAMERA
+        //////////////////////
+        function setupCamera(){
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        }
+        
+        //////////////////////
+        // SETUP RENDERER
+        //////////////////////
+        function setupRenderer(){
+            renderer = new THREE.WebGLRenderer();
+            renderer.setClearColor(rgb(250, 0,0));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMapEnabled = true;
+            // add the output of the renderer to the html element
+            $("#WebGL-output").append(renderer.domElement);
+        }
+
+        //////////////////////
+        // RENDER + ANIMATE
+        //////////////////////
+        function render() {
+            console.log("I'm here!")
+            stats.update();
+
+            // render using requestAnimationFrame
+            requestAnimationFrame(render);
+            renderer.render(scene, camera);
+        }    
+    });
+    
+
+    
+    
+
+</script>
+</body>
+</html>

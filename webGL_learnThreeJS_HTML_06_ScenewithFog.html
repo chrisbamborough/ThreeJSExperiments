@@ -30,6 +30,9 @@
 
         // create a scene, that will hold all our elements such as objects, cameras and lights.
         var scene = new THREE.Scene();
+        // Add some fog
+        scene.fog = new THREE.Fog(0xffffff, 0.015, 100);
+        scene.moreFog = new THREE.FogExp2(0xffffff, 0.015);
 
         // create a camera, which defines where we're looking at.
         var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -79,7 +82,7 @@
         var step=0;
         
         // GUI controls
-            var controls = new function() {
+                var controls = new function() {
             this.rotationSpeed = 0.02;
             this.numberOfObjects = scene.children.length;
 
@@ -95,8 +98,8 @@
             this.addCube = function() {
 
                 var cubeSize = Math.ceil((Math.random() * 3));
-                var cubeGeometry = new THREE.BoxGeometry(1,1,1);
-                var cubeMaterial = new THREE.MeshBasicMaterial({color: 0x0ff00});
+                var cubeGeometry = new THREE.BoxGeometry(cubeSize,cubeSize,cubeSize);
+                var cubeMaterial = new THREE.MeshLambertMaterial({color:  Math.random() * 0xffffff });
                 var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
                 cube.castShadow = true;
                 cube.name = "cube-" + scene.children.length;
