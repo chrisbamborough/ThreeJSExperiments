@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>"Three.js starField"</title>
+    <script type="text/javascript" src="libs/three.js"></script>
+    <script type="text/javascript" src="libs/stats.min.js"></script>
+    <script type="text/javascript" src="libs/dat.gui.js"></script>
+    <script type="text/javascript" src="libs/jquery-1.11.1.min.js"></script>
+        <style>
+        body{
+            /* set margin to 0 and overflow to hidden, to go fullscreen */
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+<!----------- DIVS for Output -------->
+<div id="Stats-output"></div>
+<div id="WebGL-output"></div>
+
+    
+<script type="text/javascript">
+    
+    //////////////////////
+    // VARS
+    //////////////////////
+
+    //////////////////////
+    // SETUP STATS
+    //////////////////////
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    stats.setMode(0);
+    document.body.appendChild( stats.domElement );
+
+    //////////////////////
+    // SETUP GUI
+    //////////////////////
+    gui = new dat.GUI();
+
+    //////////////////////
+    // CALL FUNCTIONS 
+    //////////////////////
+    setup3D()
+    addGeometry()
+    addLights()
+    render()
+
+    //////////////////////
+    // SETUP 3D SCENE + GEOMETRY
+    //////////////////////
+    function setup3D(){
+    }
+
+    //////////////////////
+    // ADD GEOMETRY
+    //////////////////////
+    function addGeometry(){
+    }
+
+    //////////////////////
+    // ADD LIGHTS
+    //////////////////////
+    function addLights(){
+    }
+
+    //////////////////////
+    // CONTROLS
+    //////////////////////
+
+
+
+
+
+    //////////////////////
+    // RENDER + ANIMATE
+    //////////////////////
+    function render() {
+      stats.update
+    }
+
+
+</script>
+</body>
+</html>
