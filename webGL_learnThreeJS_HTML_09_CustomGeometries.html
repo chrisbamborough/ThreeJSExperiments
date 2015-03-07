@@ -4,7 +4,7 @@
 <html>
     
 <head>
-    <title>Three.js template</title>
+    <title>Three.js Custom Geometries</title>
     <script type="text/javascript" src="libs/three.js"></script>
     <script type="text/javascript" src="libs/stats.min.js"></script>
     <script type="text/javascript" src="libs/dat.gui.js"></script>
@@ -32,7 +32,7 @@
         //////////////////////
         // VARS
         //////////////////////
-        var stats, renderer, scene, camera, spotlight;
+        var stats, renderer, scene, camera, spotlight, ambientLight;
 
         //////////////////////
         // SETUP STATS
@@ -68,6 +68,7 @@
         //////////////////////
         function setup3D(){
             scene = new THREE.Scene();
+            //scene.overrideMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
         }
         
         //////////////////////
@@ -87,7 +88,8 @@
         //////////////////////
         function setupRenderer(){
             renderer = new THREE.WebGLRenderer();
-            renderer.setClearColor(0,0,0);
+            // set background colour
+            renderer.setClearColor(0xffffff, 1);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.shadowMapEnabled = true;
             // add the output of the renderer to the html element
@@ -164,21 +166,91 @@
             spotLight.position.set( -40, 60, 10 );
             spotLight.castShadow = true;
             scene.add( spotLight );
+            
+            // add subtle ambient lighting
+            ambientLight = new THREE.AmbientLight(0x494949);
+            scene.add(ambientLight);
         }
+        
+
         
         //////////////////////
         // GUI CONTROLS
         //////////////////////
+        function addControl(x,y,z) {
+            var controls = new function() {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+            }
 
-        //////////////////////
-        // BUILD GUI
-        //////////////////////        
+            return controls;
+        }
+        
+        // Add control to the vertices in the gui
+        var controlPoints = [];
+        controlPoints.push(addControl(3,5,3));
+        controlPoints.push(addControl(3,5,0));
+        controlPoints.push(addControl(3,0,3));
+        controlPoints.push(addControl(3,0,0));
+        controlPoints.push(addControl(0,5,0));
+        controlPoints.push(addControl(0,5,3));
+        controlPoints.push(addControl(0,0,0));
+        controlPoints.push(addControl(0,0,3));
+
+        
+         gui.add(new function() {
+             // Add a function to clone the mesh
+            this.clone = function() {
+
+                var cloned = mesh.children[0].geometry.clone();
+                var materials = [
+                    new THREE.MeshLambertMaterial( { opacity:0.6, color: 0xff44ff, transparent:true } ),
+                    new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } )
+
+                ];
+
+                var mesh2 = THREE.SceneUtils.createMultiMaterialObject(cloned,materials);
+                mesh2.children.forEach(function(e) {e.castShadow=true});
+
+                mesh2.translateX(5);
+                mesh2.translateZ(5);
+                mesh2.name="clone";
+                scene.remove(scene.getChildByName("clone"));
+                scene.add(mesh2);
+
+
+                }
+            },'clone');
+        
+        for (var i = 0 ; i < 8 ; i++) {
+
+            f1 = gui.addFolder('Vertices ' + (i+1));
+            f1.add(controlPoints[i], 'x',-10,10);
+            f1.add(controlPoints[i], 'y',-10,10);
+            f1.add(controlPoints[i], 'z',-10,10);
+
+        }
+
         
         //////////////////////
         // RENDER + ANIMATE
         //////////////////////
         function render() {
             stats.update();
+            
+            //NOT WORKING
+            //var vertices = [];
+            //for (var i = 0 ; i < 8 ; i++) {
+                //geom.vertices.push(new THREE.Vector3(controlPoints[i].x, controlPoints[i].y,controlPoints[i].z));
+            //}
+            
+            //mesh.children.forEach(function(e) {
+                //e.geometry.vertices=vertices;
+                //e.geometry.verticesNeedUpdate=true;
+                //e.geometry.computeBoundingSphere();
+                //});
+
 
             // render using requestAnimationFrame
             requestAnimationFrame(render);
